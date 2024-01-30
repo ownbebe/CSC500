@@ -14,16 +14,16 @@ class MealCalc:
         print(self.total)
 
         taxTotal = self.total * self.salesTax
-        print(round(taxTotal, 2))
+        print('The total for tax is: ' + str(round(taxTotal, 2)))
 
         self.total += taxTotal
-        print(round(self.total, 2))
+        print('The total for the meal with tax is: ' + str(round(self.total, 2)))
 
         tipTotal = self.total * self.tip
-        print(round(tipTotal, 2))
+        print('The total for the tip is: ' + str(round(tipTotal, 2)))
 
         self.total += tipTotal
-        print(round(self.total, 2))
+        print('The total for the meal, tip, and tax is: ' + str(round(self.total, 2)))
 
 
 mealCost = float(input("Enter the total for the meal: "))
