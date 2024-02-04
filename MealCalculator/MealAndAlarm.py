@@ -10,18 +10,15 @@ class Alarm:
     #My initial thought on how to solve this problem with a list
     def calculateAlarmTime(self): 
         counter = self.alarmLength
-        iterator = 0
         alarmTime = self.possibleTimes[self.currentTime]
-        if counter < 24:
-            iterator += 1
+        
         
         while counter > 0:
-            if alarmTime == 23:
-                alarmTime -= 24
-                iterator = 0
-            alarmTime = self.possibleTimes[iterator + self.currentTime]
-            iterator += 1
+            alarmTime += 1
             counter -= 1
+            
+            if alarmTime > 23:
+                alarmTime -= 24
             
         print(f'The time when the alarm goes off will be{alarmTime}. This will be calculated with the first method.')
     
