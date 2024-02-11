@@ -12,6 +12,4 @@ class ItemToPurchase:
         return self.itemPrice * self.itemQuantity
         
     def print_item_cost(self):
-        return f'{self.itemName} {self.itemQuantity} @ ${self.itemPrice:.2f} = ${self.itemTotal():.2f}' 
-    
-    
+        return f'{self.itemName} {self.itemQuantity} @ ${self.itemPrice:.2f} = ${self.itemTotal():.2f}'    

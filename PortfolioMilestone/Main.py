@@ -53,7 +53,7 @@ class Maintenance:
         item2 = self.itemInput()
         
         totalCost = item1.itemTotal() + item2.itemTotal()
-        print(f'TOTAL COST \n{item1.print_item_cost()} \n{item2.print_item_cost()}\n Total: ${totalCost:.2f}')
+        print(f'TOTAL COST \n{item1.print_item_cost()} \n{item2.print_item_cost()}\nTotal: ${totalCost:.2f}')
         
 class Main: 
     def __init__(self):
