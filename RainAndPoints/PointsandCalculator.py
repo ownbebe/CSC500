@@ -146,7 +146,7 @@ class Main:
                 if choice >= 1 and choice <= 3:
                     return choice
                 else:
-                    raise InvalidInputError("Choice must be between 1 and 3, inclusive.")
+                    raise InvalidInputError("Choice must be between 1 and 3.")
             except InvalidInputError as e:
                 print(e.message)
             except ValueError:
