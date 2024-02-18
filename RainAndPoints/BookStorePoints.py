@@ -2,10 +2,12 @@ class BookStorePoints:
     points = 0
     booksPurchased = 0
     
+    #Constructor
     def __init__(self, booksPurchased):
         self.points = self.points
         self.booksPurchased = booksPurchased
         
+    #Method for calculating total points
     def calculate(self):
         if(self.booksPurchased == 0):
             self.points = 0
@@ -14,19 +16,22 @@ class BookStorePoints:
             self.points = 60
             
         else:
-            multiplier = 2.5
-            counter = 1
+            onGoingPoints = 2.5
+            multiplier = 1
             total = 0 
             
+            #Every even number increases the points being added to the total by 2.5
+            #0-2 books = 2.5, 3-4 = 5, 5-6 = 7.5, 7 = 10
             for x in range(1, self.booksPurchased + 1):
-                total += multiplier
+                total += onGoingPoints
                 if(x % 2 == 0):
-                    counter += 1
-                    multiplier = 2.5 * counter
+                    multiplier += 1
+                    onGoingPoints = 2.5 * multiplier
                 
             self.points = total
-        print(self.points)
+        print(f"Your points total is {self.points}")
         
+#validates input
 class InvalidInputError(Exception):
     def __init__(self, message):
         self.message = message
@@ -48,6 +53,8 @@ class Main:
                 break
             except InvalidInputError as e:
                 print(e.message)
+            except ValueError:
+                print("Invalid input. Please enter a number.")
             
         return books
         

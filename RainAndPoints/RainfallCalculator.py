@@ -6,6 +6,7 @@ class RainfallCalculator:
     totalRain = 0
     yearRain = 0
     
+    #Constructor
     def __init__(self, totalYears):
         self.totalyears = totalYears
         self.yearlyTotals = self.yearlyTotals
@@ -13,6 +14,8 @@ class RainfallCalculator:
         self.totalRain = self.totalRain
         self.yearRain = self.yearRain
     
+    #Method for gathering input and calculating total rainfall
+    #Inner loop gets input for each month of the year, outer loop calculates total for given amount of years
     def getInput(self):
         for year in range (0, self.totalyears):
             for month in range (0, 12):
@@ -48,6 +51,8 @@ class RainfallCalculator:
                         break
                     except InvalidInputError as e:
                         print(e.message)
+                    except ValueError:
+                        print("Invalid input. Please enter a number.")
                         
                 self.monthlyTotals[monthName] = rain
                         
@@ -57,6 +62,7 @@ class RainfallCalculator:
                 
         print(f"The total rainfall was {self.totalRain} inches.")
         
+#validates user input
 class InvalidInputError(Exception):
     def __init__(self, message):
         self.message = message
@@ -78,6 +84,8 @@ class Main:
                 break
             except InvalidInputError as e:
                 print(e.message)
+            except ValueError:
+                print("Invalid input. Please enter a number.")
                 
         return years
     
