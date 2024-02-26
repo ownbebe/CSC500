@@ -1,3 +1,4 @@
+#class for items that will be in the shopping cart
 class ItemToPurchase:
     itemName = "none"
     itemPrice = 0.00
@@ -8,12 +9,15 @@ class ItemToPurchase:
         self.itemPrice = itemPrice
         self.itemQuantity = itemQuantity
         
+    #method for finding the total of an individual item
     def itemTotal(self):
         return self.itemPrice * self.itemQuantity
         
+    #method for displaying item information
     def print_item_cost(self):
         return f'{self.itemName} {self.itemQuantity} @ ${self.itemPrice:.2f} = ${self.itemTotal():.2f}'    
 
+#Custom exception for validating input
 class InvalidInputError(Exception):
     def __init__(self, message):
         self.message = message
@@ -25,9 +29,11 @@ def validateString(value):
         raise InvalidInputError(f'You must enter a string')
 
 class Maintenance:
+    #empty constructor
     def __init__(self):
         None
     
+    #method for retrieving item information from customer
     def itemInput(self):
         while True:
             try:
@@ -59,6 +65,7 @@ class Maintenance:
         
         return item
     
+    #method that displays item information. No longer needed
     def display(self):
         print(f'Item 1')
         item1 = self.itemInput()
@@ -68,16 +75,19 @@ class Maintenance:
         
         totalCost = item1.itemTotal() + item2.itemTotal()
         print(f'TOTAL COST \n{item1.print_item_cost()} \n{item2.print_item_cost()}\n Total: ${totalCost:.2f}')
-        
+
+#Class that will hold and maintain information for the shopping cart throughout execution        
 class ShoppingCart:
     customerName = "none"
     customerDate = "January 1, 2020"
     
+    #constructor
     def __init__(self, customerName, customerDate):
         self.customerName = customerName
         self.customerDate = customerDate
         self.cartItems: list[ItemToPurchase] = []
         
+    #helper method for finding an item within the list
     def findItem(self, itemName):
         for item in self.cartItems:
             if item.itemName == itemName:
@@ -85,11 +95,11 @@ class ShoppingCart:
             
         return -1
     
-
-        
+    #method to add an item to the list   
     def addItem(self, item):
         self.cartItems.append(item)
         
+    #method to remove an item from list
     def removeItem(self, itemName):
             index = self.findItem(itemName)
             if index == -1:
@@ -97,6 +107,7 @@ class ShoppingCart:
             else:
                 self.cartItems.pop(index)
             
+    #method to update an item within the list
     def modifyItems(self, item):
         index = self.findItem(item)
         maintain = Maintenance()
@@ -106,10 +117,12 @@ class ShoppingCart:
             modifiedItem = maintain.itemInput()
             self.cartItems[index] = modifiedItem
     
+    #method for getting length of list
     def getNumInCart(self):
         itemsInCart = len(self.cartItems)
         return itemsInCart
     
+    #method for finding total of items in list
     def getCostOfCart(self):
         totalCost = 0
         for item in self.cartItems:
@@ -117,6 +130,7 @@ class ShoppingCart:
         
         return totalCost
     
+    #method for printing item information within the list
     def printTotal(self):
         print(f"{self.customerName}'s Shopping Cart - {self.customerDate}")
         for item in self.cartItems:
@@ -124,15 +138,13 @@ class ShoppingCart:
                 
         print(f"Total: ${self.getCostOfCart():.2f}\n")
         
+    #method for printing the item name for each item in the list
     def printDescriptions(self):
         print(f"{self.customerName}'s Shopping Cart - {self.customerDate}")
         for item in self.cartItems:
             print(f"{item.itemName}")
-
-
-
-        
-        
+ 
+#Where the program will be started              
 class Main: 
     def __init__(self):
         self.maintain = Maintenance()
@@ -157,9 +169,7 @@ class Main:
                 
             self.choice = self.menu(self.shoppingCart)
                 
-                
-                
-        
+    #Allows user to decide what will happen next in the program        
     def menu(self, shoppingCart):
         print(f"Menu")
         print(f"1. Add item to cart")
@@ -181,6 +191,7 @@ class Main:
             except ValueError:
                 print("Invalid input. Please enter a number.")
                 
+    #helper method for retrireving item name
     def getName(self):
         while True:
             try:
@@ -192,6 +203,7 @@ class Main:
                     
         return itemName
     
+    #helper method for getting customer information
     def getCustomerInfo(self):
         while True:
             try:
