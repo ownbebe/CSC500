@@ -3,11 +3,13 @@ class ItemToPurchase:
     itemName = "none"
     itemPrice = 0.00
     itemQuantity = 0
+    itemDescription = "none"
     
-    def __init__(self, itemName, itemPrice, itemQuantity):
+    def __init__(self, itemName, itemPrice, itemQuantity, itemDescription):
         self.itemName = itemName
         self.itemPrice = itemPrice
         self.itemQuantity = itemQuantity
+        self.itemDescription = itemDescription
         
     #method for finding the total of an individual item
     def itemTotal(self):
@@ -41,7 +43,9 @@ class Maintenance:
                 validateString(itemName)
                 break
             except InvalidInputError as e:
-                    print(e.message)
+                print(e.message)
+            except ValueError:
+                print(f"Invalid input type. Please try again. ")
                     
         while True:
             try:
@@ -49,7 +53,9 @@ class Maintenance:
                 validateInput(itemPrice)
                 break
             except InvalidInputError as e:
-                    print(e.message)
+                print(e.message)
+            except ValueError:
+                print(f"Invalid input type. Please try again.")
                     
         while True:
             try:
@@ -57,11 +63,23 @@ class Maintenance:
                 validateInput(itemQuantity)
                 break
             except InvalidInputError as e:
-                    print(e.message)
+                print(e.message)
+            except ValueError:
+                print(f"Invalid input type. Please try again.")
+                
+        while True:
+            try:
+                itemDescription = str(input("Enter the description of the item: "))
+                validateString(itemDescription)
+                break
+            except InvalidInputError as e:
+                print(e.message)
+            except ValueError:
+                print(f"Invalid input type. Please try again. ")
         
         
         
-        item = ItemToPurchase(itemName, itemPrice, itemQuantity)
+        item = ItemToPurchase(itemName, itemPrice, itemQuantity, itemDescription)
         
         return item
     
@@ -90,7 +108,7 @@ class ShoppingCart:
     #helper method for finding an item within the list
     def findItem(self, itemName):
         for item in self.cartItems:
-            if item.itemName == itemName:
+            if item.itemName.lower() == str(itemName).lower():
                 return self.cartItems.index(item)
             
         return -1
@@ -114,8 +132,16 @@ class ShoppingCart:
         if index == -1:
             print(f"Item not found in cart. Nothing modified")
         else:
-            modifiedItem = maintain.itemInput()
-            self.cartItems[index] = modifiedItem
+            while True:
+                try:
+                    newQuantity = int(input("Enter the new quantity for your item: "))
+                    validateInput(newQuantity)
+                    break
+                except InvalidInputError as e:
+                    print(e.message)
+                except ValueError:
+                    print(f"Invalid value error")
+            self.cartItems[index].itemQuantity = newQuantity
     
     #method for getting length of list
     def getNumInCart(self):
@@ -141,8 +167,10 @@ class ShoppingCart:
     #method for printing the item name for each item in the list
     def printDescriptions(self):
         print(f"{self.customerName}'s Shopping Cart - {self.customerDate}")
+        if(len(self.cartItems) == 0):
+            print(f"There are no items in the cart.")
         for item in self.cartItems:
-            print(f"{item.itemName}")
+            print(f"{item.itemName}: {item.itemDescription}")
  
 #Where the program will be started              
 class Main: 
@@ -152,19 +180,19 @@ class Main:
         self.shoppingCart = ShoppingCart(self.customerName, self.date)
         
         self.choice = self.menu(self.shoppingCart)
-        while self.choice != 6:
-            if self.choice == 1:
+        while self.choice != 'q':
+            if self.choice == 'a':
                 self.item = self.maintain.itemInput()
                 self.shoppingCart.addItem(self.item)
-            elif self.choice == 2:
+            elif self.choice == 'r':
                 self.itemName = self.getName()
                 self.shoppingCart.removeItem(self.itemName)
-            elif self.choice == 3:
+            elif self.choice == 'c':
                 self.itemName = self.getName()
                 self.shoppingCart.modifyItems(self.itemName)
-            elif self.choice == 4:
+            elif self.choice == 'i':
                 self.shoppingCart.printDescriptions()
-            elif self.choice == 5:
+            elif self.choice == 'o':
                 self.shoppingCart.printTotal()
                 
             self.choice = self.menu(self.shoppingCart)
@@ -172,24 +200,25 @@ class Main:
     #Allows user to decide what will happen next in the program        
     def menu(self, shoppingCart):
         print(f"Menu")
-        print(f"1. Add item to cart")
-        print(f"2. Remove item from cart")
-        print(f"3. Modify existing item in cart")
-        print(f"4. Output items' description")
-        print(f"5. Output shopping cart")
-        print(f"6. Quit")
+        print(f"Enter corresponding letter")
+        print(f"a. Add item to cart")
+        print(f"r. Remove item from cart")
+        print(f"c. Modify existing item in cart")
+        print(f"i. Output items' description")
+        print(f"o. Output shopping cart")
+        print(f"q. Quit")
 
         while True:
             try:
-                choice = int(input("Enter your choice: "))
-                if choice >= 1 and choice <= 6:
+                choice = str(input("Enter your choice: ")).lower()
+                if choice == 'a' or 'r' or 'c' or 'i' or 'o' or 'q':
                     return choice
                 else:
-                    raise InvalidInputError("Choice must be between 1 and 3.")
+                    raise InvalidInputError(f"Choice must be be the letter corresponding to a given option.")
             except InvalidInputError as e:
                 print(e.message)
             except ValueError:
-                print("Invalid input. Please enter a number.")
+                print("Invalid input. Please enter a valid letter.")
                 
     #helper method for retrireving item name
     def getName(self):
@@ -199,7 +228,9 @@ class Main:
                 validateString(itemName)
                 break
             except InvalidInputError as e:
-                    print(e.message)
+                print(e.message)
+            except ValueError:
+                print(f"Invalid input type. Try again.")
                     
         return itemName
     
@@ -211,7 +242,9 @@ class Main:
                 validateString(customerName)
                 break
             except InvalidInputError as e:
-                    print(e.message)
+                print(e.message)
+            except ValueError:
+                print(f"Invalid input type. Try again.")
         
         while True:
             try:
@@ -219,7 +252,9 @@ class Main:
                 validateString(date)
                 break
             except InvalidInputError as e:
-                    print(e.message)
+                print(e.message)
+            except ValueError:
+                print(f"Invalid input type. Try again.")
                     
         return customerName, date
         
